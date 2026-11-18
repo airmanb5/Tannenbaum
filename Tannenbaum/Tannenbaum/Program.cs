@@ -5,31 +5,55 @@
         Console.Write("Gib ein, wie hoch der Tannenbaum sein soll: ");
         string inputHeight = Console.ReadLine();
 
-        if (int.TryParse(inputHeight, out int height))
+        Console.WriteLine("Star on top (y/n): ");
+        string starOnTop = Console.ReadLine();
+
+        if (starOnTop.ToLower() == "y")
         {
-            for (int i = 0; i <= height + 1; i++)
+            if (int.TryParse(inputHeight, out int height))
             {
-                List<string> currentLayer = GetCurrentChristmasTreeLayer(i, height);
-
-                Console.WriteLine();
-
-                foreach (string layer in currentLayer)
+                for (int i = 0; i <= height + 1; i++)
                 {
-                    Console.Write(layer);
+                    List<string> currentLayer = GetCurrentChristmasTreeLayer(i, height, true);
+
+                    Console.WriteLine();
+
+                    foreach (string layer in currentLayer)
+                    {
+                        Console.Write(layer);
+                    }
                 }
             }
+            else
+            {
+                Console.WriteLine("Invalid Height.");
+            }
         }
-
         else
         {
-            Console.WriteLine("Invalid Height.");
+            if (int.TryParse(inputHeight, out int height))
+            {
+                for (int i = 0; i <= height + 1; i++)
+                {
+                    List<string> currentLayer = GetCurrentChristmasTreeLayer(i, height, false);
+
+                    Console.WriteLine();
+
+                    foreach (string layer in currentLayer)
+                    {
+                        Console.Write(layer);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid Height.");
+            }
         }
     }
 
-    public static List<string> GetCurrentChristmasTreeLayer(int layer, int maxLayer)
+    public static List<string> GetCurrentChristmasTreeLayer(int layer, int maxLayer, bool hasStar)
     {
-
-
         int amountOfXes = layer * 2 - 1;
 
         int amountOfXesOnLastLayer = maxLayer * 2 - 1;
@@ -40,40 +64,46 @@
 
         int amountOfSpacesPerSide = amountOfSpaces / 2;
 
-        if (layer == maxLayer + 1)
+        if (hasStar && layer == 0)
         {
-            for (int i = 0; i <= amountOfSpacesPerSide + amountOfXesOnLastLayer / 2; i++)
+            for (int i = 0; i <= amountOfSpacesPerSide - 2; i++)
             {
                 finalLayer.Add(" ");
             }
 
             for (int i = 0; i < 1; i++)
             {
-                finalLayer.Add("I");
-            }
-
-            for (int i = 0; i <= amountOfSpacesPerSide + amountOfXesOnLastLayer / 2; i++)
-            {
-                finalLayer.Add(" ");
+                finalLayer.Add("*");
             }
         }
         else
         {
-            for (int i = 0; i <= amountOfSpacesPerSide - 1; i++)
+            if (layer == maxLayer + 1)
             {
-                finalLayer.Add(" ");
-            }
+                for (int i = 0; i <= amountOfSpacesPerSide + amountOfXesOnLastLayer / 2; i++)
+                {
+                    finalLayer.Add(" ");
+                }
 
-            for (int i = 0; i <= amountOfXes - 1; i++)
-            {
-                finalLayer.Add("X");
+                for (int i = 0; i < 1; i++)
+                {
+                    finalLayer.Add("I");
+                }
             }
-
-            for (int i = 0; i < amountOfSpacesPerSide - 1; i++)
+            else
             {
-                finalLayer.Add(" ");
+                for (int i = 0; i <= amountOfSpacesPerSide - 1; i++)
+                {
+                    finalLayer.Add(" ");
+                }
+
+                for (int i = 0; i <= amountOfXes - 1; i++)
+                {
+                    finalLayer.Add("X");
+                }
             }
         }
+
         return finalLayer;
     }
 }
